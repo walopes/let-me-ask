@@ -1,9 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Button } from './components/Button';
 
 function App() {
   return (
-    <h1>Hello World!</h1>
+    <div>
+      <Button text="Botão 1" />
+      <Button />
+    </div>
   );
 }
 
