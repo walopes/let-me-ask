@@ -1,10 +1,16 @@
+import { useState } from "react";
 
-type ButtonProps = {
-    text?: string; // The '?' on the variable, makes it optional usage
-}
+export function Button(){
 
-export function Button(props: ButtonProps){
+    const [counter, setCounter] = useState(0);
+
+    function increment()
+    {
+        setCounter(counter + 1);
+        console.log(counter);
+    }
+
     return (
-        <button>{props.text || 'Default'}</button>
+        <button onClick={increment}>{counter}</button>
     )
 };
