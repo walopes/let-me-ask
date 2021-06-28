@@ -8,11 +8,11 @@ import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 
 import {Button} from '../components/Button';
-import { TextContext } from '../App';
+import { AuthContext } from '../App';
 
 export function NewRoom(){
 
-    const {value, setValue} = useContext(TextContext);
+    const {user} = useContext(AuthContext);
 
     return (
         <div id="page-auth">

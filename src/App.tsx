@@ -1,24 +1,77 @@
 
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import { Home } from './pages/Home';
 import { NewRoom } from './pages/NewRoom';
+import {auth, firebase} from './services/firebase';
 
-export const TextContext = createContext({} as any);
+type User = {
+  id: string;
+  name: string;
+  avatar: string;
+};
+
+type AuthContextType = {
+  user: User | undefined;
+  signInWithGoogle: () => Promise<void>;
+};
+
+export const AuthContext = createContext({} as AuthContextType);
 
 function App() {
 
-  const [value, setValue] = useState('Teste');
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    // useEffect used to do some task when change is reached
+    auth.onAuthStateChanged( user => {
+      if(user){
+
+      const {displayName, photoURL, uid} = user;
+        if (!displayName || !photoURL){
+          throw new Error('Missing information from Google Account');
+        }
+
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL
+        });
+      }
+    })
+  },[]);
+
+  async function signInWithGoogle(){
+    
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const result = await auth.signInWithPopup(provider);
+
+    if(result.user){
+      const {displayName, photoURL, uid} = result.user;
+
+      if (!displayName || !photoURL){
+        throw new Error('Missing information from Google Account');
+      }
+
+      setUser({
+        id: uid,
+        name: displayName,
+        avatar: photoURL
+      });
+
+    };
+
+}
 
   return (
     <BrowserRouter>
-      <TextContext.Provider value={{value,setValue}}>
+      <AuthContext.Provider value={{user,signInWithGoogle}}>
         {/* The 'exact' above, if set as true (default) 
         only displays the component when the path is reached  */}
         <Route path="/" exact={true} component={Home} />
         <Route path="/rooms/new" component={NewRoom} />
-      </TextContext.Provider>
+      </AuthContext.Provider>
     </BrowserRouter>
   );
 }
