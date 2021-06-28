@@ -1,4 +1,5 @@
 
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import '../styles/auth.scss';
@@ -7,8 +8,11 @@ import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 
 import {Button} from '../components/Button';
+import { TextContext } from '../App';
 
 export function NewRoom(){
+
+    const {value, setValue} = useContext(TextContext);
 
     return (
         <div id="page-auth">
