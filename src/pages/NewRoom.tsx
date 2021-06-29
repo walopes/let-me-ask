@@ -8,7 +8,7 @@ import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 
 import {Button} from '../components/Button';
-import { AuthContext } from '../App';
+import { AuthContext } from '../contexts/AuthContext';
 
 export function NewRoom(){
 
