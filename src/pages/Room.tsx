@@ -9,6 +9,7 @@ import { Button } from '../components/Button';
 import { RoomCode } from '../components/RoomCode';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
+import { Question } from '../components/Question';
 
 type firebaseQuestions = Record<string, {
     author: {
@@ -20,7 +21,7 @@ type firebaseQuestions = Record<string, {
     isHighlighted: boolean;
 }>;
 
-type Question = {
+type Questions = {
     id: string;
     author: {
         name: string;
@@ -43,7 +44,7 @@ export function Room(){
     const roomId = params.id;
 
     const [newQuestion, setNewQuestion] = useState('');
-    const [questions, setQuestions] = useState<Question[]>([]);
+    const [questions, setQuestions] = useState<Questions[]>([]);
     const [title, setTitle] = useState('');
 
     useEffect(() => {
@@ -55,8 +56,7 @@ export function Room(){
             roomRef.once(...) -> Listen to the event only once
         */
 
-        roomRef.once('value', room => {
-
+        roomRef.on('value', room => {
             const databaseRoom = room.val();
             // the same as "const firebaseQuestions = databaseRoom.questions as firebaseQuestions"
             const firebaseQuestions: firebaseQuestions = databaseRoom.questions ?? {};
@@ -143,8 +143,21 @@ export function Room(){
                     </div>
 
                 </form>
-            </main>
 
+                <div className="question-list">
+                    {questions.map(question => {
+                        return (
+                            <Question
+                                key={question.id}
+                                content={question.content}
+                                author={question.author}
+                            />
+                        );
+                    })}
+                </div>
+                
+            </main>
+            
         </div>
     );
 };
