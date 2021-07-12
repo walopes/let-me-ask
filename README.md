@@ -39,6 +39,22 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Firebase connection
+
+In order to connect to Firebase, create a file on the project's root folder, name `.env.local`, that should contains the following data:
+
+```
+# Firebase
+
+REACT_APP_API_KEY="BezTkyDtu2-Urg0sPPiABCPttL6771C-acod798"
+REACT_APP_AUTH_DOMAIN="project-demo-21013.firebaseapp.com"
+REACT_APP_DATABASE_URL="https://project-demo-21013-default-rtdb.firebaseio.com"
+REACT_APP_PROJECT_ID="project-demo-21013"
+REACT_APP_STORAGE_BUCKET="project-demo-21013.appspot.com"
+REACT_APP_MESSAGING_SENDER_ID="499603662772"
+REACT_APP_APP_ID="1:614426612885:web:7fg9b76d680523be88c80c"john@doe-
+```
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
