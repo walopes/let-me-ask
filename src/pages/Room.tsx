@@ -10,32 +10,12 @@ import { RoomCode } from '../components/RoomCode';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 import { Question } from '../components/Question';
-
-type firebaseQuestions = Record<string, {
-    author: {
-        name: string;
-        avatar: string;
-    }
-    content: string;
-    isAnswered: boolean;
-    isHighlighted: boolean;
-}>;
-
-type Questions = {
-    id: string;
-    author: {
-        name: string;
-        avatar: string;
-    }
-    content: string;
-    isAnswered: boolean;
-    isHighlighted: boolean;
-
-};
+import { useRoom } from '../hooks/useRoom';
 
 type RoomParams = {
     id: string;
-};
+}
+
 
 export function Room(){
     
@@ -43,43 +23,10 @@ export function Room(){
     const params = useParams<RoomParams>();
     const roomId = params.id;
 
+    const { title, questions } = useRoom(roomId);
+
     const [newQuestion, setNewQuestion] = useState('');
-    const [questions, setQuestions] = useState<Questions[]>([]);
-    const [title, setTitle] = useState('');
 
-    useEffect(() => {
-        const roomRef = database.ref(`rooms/${roomId}`);
-        
-        /*
-            Tips on Javascript Event Listener
-            roomRef.on(...) -> listen to the event more than once
-            roomRef.once(...) -> Listen to the event only once
-        */
-
-        roomRef.on('value', room => {
-            const databaseRoom = room.val();
-            // the same as "const firebaseQuestions = databaseRoom.questions as firebaseQuestions"
-            const firebaseQuestions: firebaseQuestions = databaseRoom.questions ?? {};
-
-            // Object.entries() returns a object with key-value pairs
-            const parsedQuestions = Object.entries(firebaseQuestions).map(([key, value]) => {
-                return {
-                    id: key,
-                    content: value.content,
-                    author: value.author,
-                    isHighlighted: value.isHighlighted,
-                    isAnswered: value.isAnswered,
-                }
-            });
-
-            setTitle(databaseRoom.title);
-            setQuestions(parsedQuestions);
-        });
-
-        /**
-         * Every time the parameter changes (roomId in the case), the useEffect will be triggered.
-         */
-    }, [roomId]);
 
     async function handleCreateNewQuestion(event: FormEvent){
         
