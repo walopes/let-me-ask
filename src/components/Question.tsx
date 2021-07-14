@@ -1,5 +1,5 @@
 
-import { Children, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import '../styles/question.scss';
 

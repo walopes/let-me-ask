@@ -13,9 +13,7 @@ type RoomParams = {
     id: string;
 }
 
-
 export function AdminRoom(){
-    
     const params = useParams<RoomParams>();
     const roomId = params.id;
 
