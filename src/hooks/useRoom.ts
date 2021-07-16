@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 
 import { database } from "../services/firebase";
+import { useAuth } from "./useAuth";
 
 
 type firebaseQuestions = Record<string, {
@@ -12,6 +13,9 @@ type firebaseQuestions = Record<string, {
     content: string;
     isAnswered: boolean;
     isHighlighted: boolean;
+    likes: Record<string, {
+        authorId: string
+    }>;
 }>;
 
 type QuestionType = {
@@ -23,11 +27,13 @@ type QuestionType = {
     content: string;
     isAnswered: boolean;
     isHighlighted: boolean;
-
+    likeCount: number;
+    hasLiked: boolean;
 };
 
 
 export function useRoom(roomId: string){
+    const { user } = useAuth();
     const [questions, setQuestions] = useState<QuestionType[]>([]);
     const [title, setTitle] = useState('');
 
@@ -54,6 +60,8 @@ export function useRoom(roomId: string){
                     author: value.author,
                     isHighlighted: value.isHighlighted,
                     isAnswered: value.isAnswered,
+                    likeCount: Object.values(value.likes ?? {}).length,
+                    hasLiked: Object.values(value.likes ?? {}).some(like => like.authorId === user?.id),
                 }
             });
 
@@ -61,10 +69,17 @@ export function useRoom(roomId: string){
             setQuestions(parsedQuestions);
         });
 
+        /*
+        Unsubscribe this callback
+        */
+        return () => {
+            roomRef.off('value');
+        };
+
         /**
          * Every time the parameter changes (roomId in the case), the useEffect will be triggered.
          */
-    }, [roomId]);
+    }, [roomId, user?.id]);
 
     return { questions, title };
 };
