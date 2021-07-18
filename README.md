@@ -55,6 +55,33 @@ REACT_APP_MESSAGING_SENDER_ID="499603662772"
 REACT_APP_APP_ID="1:614426612885:web:7fg9b76d680523be88c80c"john@doe-
 ```
 
+## Hosting with firebase
+
+Install the package
+```bash
+# npm install -g firebase-tools
+$ yarn global add firebase-tools
+```
+
+Then, start the firebase locally
+```bash
+$ firebase login
+$ firebase init
+```
+
+Build the application
+```bash
+$ yarn build
+```
+
+```bash
+$ firebase deploy
+```
+
+Project Console: `https://console.firebase.google.com/project/letmeask-demo-20961/overview`
+Hosting URL: `https://letmeask-demo-20961.web.app`
+
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
