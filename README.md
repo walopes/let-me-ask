@@ -1,4 +1,9 @@
-# Getting Started with Create React App
+
+![Let Me Ask logo](src/assets/images/logo.svg)
+
+# letmeask - [Ask me anything]("https://letmeask-demo-20961.web.app")
+
+**Let me Ask** is the place where you can ask anything and get responses from the community.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
